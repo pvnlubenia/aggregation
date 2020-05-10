@@ -2,4 +2,6 @@
 
 The model presented here is based on the Keller-Segel Model of Slime Mold Aggregation which exhibits chemotaxis, the movement of a cell or organism in response to chemical stimuli. The system is composed of agents (represented by slime mold cells) interacting with their environment (cAMP concentration). The simulation shows Keller and Segel's result that slime mold cells move toward high concentrations of cAMP.
 
+The model also presents an opportunity to understand how to translate and implement a model based on partial differential equations to an agent-based model.
+
 The model uses basic Python libraries, and the codes can be run on their own.
