@@ -9,9 +9,16 @@
 
 ### Needed libraries ###
 
+# For assigning a random location to agents
 import random as rd
+
+# For initializing the environment
 import numpy as np
+
+# For visualizing the environment using plot
 import matplotlib.pyplot as plt
+
+# For checking if a filename already exists, to avoid overwriting files
 import os
 
 
@@ -62,10 +69,10 @@ def update():
     # cAMP concentration in each grid cell diffuses (based on diffusion equation) and decays
 	for x in range(width):
 		for y in range(width):
-			next_env[x, y] = env[x, y] + D*((env[(x+1)%width, y] + env[(x-1)%width, y] + env[x, (y+1)%width]
-												+ env[x, (y-1)%width] - 4*env[x, y])/(dh)**2)*dt - k*env[x, y]*dt
-	# Variables for environment and updated environment are updated
-    env, next_env = next_env, env
+			next_env[x, y] = env[x, y] + D*((env[(x+1)%width, y] + env[(x-1)%width, y] + env[x, (y+1)%width] + env[x, (y-1)%width] - 4*env[x, y])/(dh)**2)*dt - k*env[x, y]*dt
+	
+    # Variables for environment and updated environment are updated
+	env, next_env = next_env, env
     
     # Each agent secretes cAMP
 	for agent_ in agents_list:
@@ -74,8 +81,7 @@ def update():
     # Chemotaxis of slime mold cells with probability based on a sigmoid function
 	for agent_ in agents_list:
 		new_x, new_y = (agent_.x + rd.randint(-1,2))%width, (agent_.y + rd.randint(-1,2))%width
-		if np.exp((env[new_x, new_y] - env[agent_.x, agent_.y])/0.1)/(1 + np.exp((env[new_x, new_y]
-				- env[agent_.x, agent_.y])/0.1)) > rd.random():
+		if np.exp((env[new_x, new_y] - env[agent_.x, agent_.y])/0.1)/(1 + np.exp((env[new_x, new_y] - env[agent_.x, agent_.y])/0.1)) > rd.random():
 			agent_.x, agent_.y = new_x, new_y
 
 
@@ -91,7 +97,7 @@ def visualize():
 	ax.imshow(env, cmap = plt.cm.binary, vmin = 0, vmax = 1)
 	
     # Coordinates of the slime mold cells
-    x = [agent_.x for agent_ in agents_list]
+	x = [agent_.x for agent_ in agents_list]
 	y = [agent_.y for agent_ in agents_list]
     
     # Plot the reversed coordinates (to be consistent with the plotting of plt.imshow)
@@ -101,11 +107,10 @@ def visualize():
 	ax.set_title('Slime Mold Aggregation' + '\n' + 'Time: ' + str(time))
 	
     # Horizontal axis label
-    ax.set_xlabel(str(n_agents) + ' Cells || ' + 'cAMP Diffusion: ' + str(D) + '\n' + 'cAMP Decay: '
-								+ str(k) + ' || cAMP Secretion: ' + str(f))
+	ax.set_xlabel(str(n_agents) + ' Cells || ' + 'cAMP Diffusion: ' + str(D) + '\n' + 'cAMP Decay: ' + str(k) + ' || cAMP Secretion: ' + str(f))
 	
     # Remove extra tick marks on the axes
-    ax.set_xticks([])
+	ax.set_xticks([])
 	ax.set_yticks([])
     
     # Prepare format of file name
@@ -119,7 +124,7 @@ def visualize():
 		i += 1
 	
     # Save figure
-    plt.savefig('{}{:d}.png'.format(filename, i), bbox_inches = 'tight', dpi = 300)
+	plt.savefig('{}{:d}.png'.format(filename, i), bbox_inches = 'tight', dpi = 300)
 
 
 
@@ -165,6 +170,8 @@ for i in range(5):
     
     # Visualize the state every 100interations
     visualize()
+
+####### End of Code #######
 
 
 
